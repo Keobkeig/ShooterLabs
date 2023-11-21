@@ -21,6 +21,7 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
+    public final Shooter shooter = new Shooter();
 
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -37,13 +38,19 @@ public class RobotContainer {
     /*** DEFAULTS ***/
     /****************/
 
-    private void configureDefaultCommands() {}
+    private void configureDefaultCommands() {
+        shooter.setDefaultCommand(shooter.getStopCommand());
+    }
 
     /***************/
     /*** BUTTONS ***/
     /***************/
 
-    private void configureButtonBindings() {}
+    private void configureButtonBindings() {
+        // Driver
+        driver.getButton(Gamepad.Button.A).whenPressed(shooter.getRingShotCommand());
+        driver.getButton(Gamepad.Button.B).whenPressed(shooter.getStopCommand());
+    }
 
     /**************/
     /*** AUTONS ***/
