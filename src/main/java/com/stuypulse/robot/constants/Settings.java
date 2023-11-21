@@ -5,9 +5,8 @@
 
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.stuylib.network.SmartBoolean;
-import com.stuypulse.stuylib.network.SmartNumber;
-package com.stuypulse.robot.subsystems.shooter;
+// import com.stuypulse.stuylib.network.SmartBoolean;
+// import com.stuypulse.stuylib.network.SmartNumber;
 
 import com.stuypulse.stuylib.control.feedback.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -23,7 +22,7 @@ public interface Settings {
         static double MIN_RPM = 100.0;
         static double MAX_RPM_CHANGE = 2000.0;
         static double MAX_RPM_ERROR = 100.0;
-    
+        static double RING_RPM = 4000.0;
         public interface ShooterPID {
             double kP = 0.005;
             double kI = 0.0;

@@ -1,6 +1,7 @@
-package com.stuypulse.robot.subsystems.shooter;
-
+package com.stuypulse.robot.subsystems;
 import com.revrobotics.CANSparkMax;
+import com.stuypulse.robot.constants.Settings;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase{
@@ -10,18 +11,18 @@ public class Shooter extends SubsystemBase{
     public Shooter() {
         flywheel = new PIDFlywheel(
             new CANSparkMax(1, CANSparkMax.MotorType.kBrushless),
-            ShooterConstants.ShooterFF.getController(),
-            ShooterConstants.ShooterPID.getController()
+            Settings.Shooter.ShooterFF.getController(),
+            Settings.Shooter.ShooterPID.getController()
         );
         targetRPM = 0.0;
     }
 
     public void setTargetRPM(double targetRPM) {
-        if (targetRPM < ShooterConstants.MIN_RPM) {
+        if (targetRPM < Settings.Shooter.MIN_RPM) {
             this.targetRPM = 0.0;
         } 
-        else if (targetRPM > ShooterConstants.MAX_RPM) {
-            this.targetRPM = ShooterConstants.MAX_RPM;
+        else if (targetRPM > Settings.Shooter.MAX_RPM) {
+            this.targetRPM = Settings.Shooter.MAX_RPM;
         }
         else {
             this.targetRPM = targetRPM;
@@ -33,11 +34,11 @@ public class Shooter extends SubsystemBase{
     }
 
     public void setFlyWheelRPM(double targetRPM) {
-        if (targetRPM < ShooterConstants.MIN_RPM) {
+        if (targetRPM < Settings.Shooter.MIN_RPM) {
             flywheel.stop();
         } 
-        else if (targetRPM > ShooterConstants.MAX_RPM) {
-            flywheel.setVelocity(ShooterConstants.MAX_RPM);
+        else if (targetRPM > Settings.Shooter.MAX_RPM) {
+            flywheel.setVelocity(Settings.Shooter.MAX_RPM);
         }
         else {
             flywheel.setVelocity(targetRPM);
@@ -49,13 +50,13 @@ public class Shooter extends SubsystemBase{
     }
 
     public boolean isReady() {
-        return Math.abs(getFlyWheelRPM() - getTargetRPM()) < ShooterConstants.MAX_RPM_ERROR;
+        return Math.abs(getFlyWheelRPM() - getTargetRPM()) < Settings.Shooter.MAX_RPM_ERROR;
     }
 
     @Override
     public void periodic() {
         double setpoint = getTargetRPM();
-        if (setpoint < ShooterConstants.MIN_RPM) {
+        if (setpoint < Settings.Shooter.MIN_RPM) {
             flywheel.stop();
         } 
         else {

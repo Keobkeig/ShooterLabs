@@ -1,4 +1,5 @@
 package com.stuypulse.robot.subsystems;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.control.Controller;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -50,7 +51,7 @@ public class PIDFlywheel extends SubsystemBase {
     }
 
     public void periodic() {
-        if (this.targetRPM < ShooterConstants.MIN_RPM) {
+        if (this.targetRPM < Settings.Shooter.MIN_RPM) {
                 motor.setVoltage(0);
         } 
         else {

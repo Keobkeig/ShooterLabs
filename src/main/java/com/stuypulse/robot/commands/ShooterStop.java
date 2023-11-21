@@ -15,6 +15,6 @@ public class ShooterStop extends InstantCommand {
 
     @Override
     public void initialize() {
-        shooter.setShooterRPM(0.0);
+        shooter.setFlyWheelRPM(0.0);
     }
 }

@@ -5,8 +5,12 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.robot.commands.ShooterRingShot;
+import com.stuypulse.robot.commands.ShooterSetRPM;
+import com.stuypulse.robot.commands.ShooterStop;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.subsystems.Shooter;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -39,7 +43,7 @@ public class RobotContainer {
     /****************/
 
     private void configureDefaultCommands() {
-        shooter.setDefaultCommand(shooter.getStopCommand());
+        shooter.setDefaultCommand(new ShooterStop(shooter));
     }
 
     /***************/
@@ -48,8 +52,12 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         // Driver
-        driver.getButton(Gamepad.Button.A).whenPressed(shooter.getRingShotCommand());
-        driver.getButton(Gamepad.Button.B).whenPressed(shooter.getStopCommand());
+        driver.getTopButton()
+            .onTrue(new ShooterSetRPM(shooter, 1000));
+        driver.getBottomButton()
+            .onFalse(new ShooterStop(shooter));
+        driver.getLeftButton()
+            .onTrue(new ShooterRingShot(shooter));
     }
 
     /**************/
