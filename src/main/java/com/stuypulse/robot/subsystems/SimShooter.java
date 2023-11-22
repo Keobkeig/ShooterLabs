@@ -17,4 +17,14 @@ public class SimShooter extends Shooter {
     public void periodicallyCalled() {
         velocity = getTargetRPM();
     }
+
+    @Override
+    public void setVoltage(double voltage) {
+        return;
+    }
+
+    @Override
+    public double getVoltage() {
+        return 0.0;
+    }
 }

@@ -1,7 +1,9 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.stuylib.control.Controller;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * @author Richie Xue 
  */
 public abstract class Shooter extends SubsystemBase{
-    // Singleton
+    // Singleton (makes it so that there is only one instance of the Shooter class)
     private static final Shooter instance;
 
     static {
@@ -31,13 +33,19 @@ public abstract class Shooter extends SubsystemBase{
     public static Shooter getInstance() {
         return instance;
     }
+    // Don't worry about anything above 
 
+    //TODO: Add a PID Controller to the shooter
     private double targetRPM;
+    private final SimpleMotorFeedforward feedforward;
+    private final Controller feedback;
 
-    
+
     public Shooter() {
         this.targetRPM = 0.0;
 
+        this.feedforward = Settings.Shooter.ShooterFF.getController();
+        this.feedback = Settings.Shooter.ShooterPID.getController();
     }
 
     public void setTargetRPM(double targetRPM) {
@@ -57,15 +65,23 @@ public abstract class Shooter extends SubsystemBase{
     }
 
     public abstract double getVelocity();
+    public abstract void setVoltage(double voltage);
+    public abstract double getVoltage();
     
     @Override
     public void periodic() {
-        SmartDashboard.putNumber(getName(), targetRPM);
+        if (getTargetRPM() < Settings.Shooter.MIN_RPM) {
+            this.setVoltage(0.0);
+        } 
+        else {
+            // Calculate feedforward and feedback (inputting a desired RPM and outputting needed voltage)
+            double ff = feedforward.calculate(getTargetRPM());
+            double fb = feedback.update(getTargetRPM(), getVelocity());
+            this.setVoltage(ff + fb);
+        }
+        SmartDashboard.putNumber("Shooter/Target RPM", getTargetRPM());
         periodicallyCalled();
     }
 
     public abstract void periodicallyCalled();
-
-    public void setShooterRPM(double d) {
-    }
 }

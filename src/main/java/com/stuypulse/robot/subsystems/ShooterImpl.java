@@ -20,17 +20,11 @@ public class ShooterImpl extends Shooter {
     private final CANSparkMax motor;
     private final RelativeEncoder encoder;
 
-    private final SimpleMotorFeedforward feedforward;
-    private final Controller feedback;
-
     public ShooterImpl() {
         super();
 
         this.motor = new CANSparkMax(1, CANSparkMax.MotorType.kBrushless);
         this.encoder = motor.getEncoder();
-
-        this.feedforward = Settings.Shooter.ShooterFF.getController();
-        this.feedback = Settings.Shooter.ShooterPID.getController();
     }
 
     public double getVelocity() {
@@ -38,20 +32,19 @@ public class ShooterImpl extends Shooter {
     }
 
     @Override
-    public void periodicallyCalled() {
-        if (getTargetRPM() < Settings.Shooter.MIN_RPM) {
-            motor.setVoltage(0.0);
-        } 
-        else {
-            // Calculate feedforward and feedback (inputting a desired RPM and outputting needed voltage)
-            double ff = feedforward.calculate(getTargetRPM());
-            double fb = feedback.update(getTargetRPM(), getVelocity());
-            motor.setVoltage(ff + fb);
-        }
+    public void setVoltage(double voltage) {
+        motor.setVoltage(voltage);
+    }   
 
-        SmartDashboard.putNumber("Shooter/Target RPM", getTargetRPM());
+    @Override
+    public double getVoltage() {
+        return motor.getAppliedOutput();
+    }
+
+    @Override
+    public void periodicallyCalled() {
         SmartDashboard.putNumber("Shooter/Velocity", getVelocity());
         SmartDashboard.putNumber("Shooter/Error", getTargetRPM() - getVelocity());
-        SmartDashboard.putNumber("Shooter/Voltage", motor.getAppliedOutput());
+        SmartDashboard.putNumber("Shooter/Voltage", getVoltage());
     }   
 }
