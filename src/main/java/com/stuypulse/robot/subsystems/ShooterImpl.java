@@ -1,8 +1,5 @@
 package com.stuypulse.robot.subsystems;
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.stuylib.control.Controller;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
