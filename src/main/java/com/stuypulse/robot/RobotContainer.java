@@ -25,7 +25,7 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
-    public final Shooter shooter = new Shooter();
+    public final Shooter shooter = Shooter.getInstance();
 
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -53,7 +53,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Driver
         driver.getTopButton()
-            .onTrue(new ShooterSetRPM(shooter, 1000));
+            .onTrue(new ShooterSetRPM(1000));
         driver.getBottomButton()
             .onFalse(new ShooterStop(shooter));
         driver.getLeftButton()

@@ -1,20 +1,43 @@
 package com.stuypulse.robot.subsystems;
-import com.revrobotics.CANSparkMax;
+
 import com.stuypulse.robot.constants.Settings;
 
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends SubsystemBase{
+/**
+ * Shooter class contains the hardware logic for the Shooter class.
+ *
+ * <p>Contains a simple feedforward model of the shooter based on the voltage-balance equation and a
+ * PID controller to correct for any error.
+ *
+ * @author Richie Xue 
+ */
+public abstract class Shooter extends SubsystemBase{
+    // Singleton
+    private static final Shooter instance;
+
+    static {
+        if (RobotBase.isReal()) {
+            instance = new ShooterImpl();
+        }
+        else {
+            //XXX: Its just a placeholder SimShooter, it doesn't do anything
+            instance = new SimShooter();
+        }
+    }
+
+    public static Shooter getInstance() {
+        return instance;
+    }
+
     private double targetRPM;
-    private final PIDFlywheel flywheel;
+
     
     public Shooter() {
-        flywheel = new PIDFlywheel(
-            new CANSparkMax(1, CANSparkMax.MotorType.kBrushless),
-            Settings.Shooter.ShooterFF.getController(),
-            Settings.Shooter.ShooterPID.getController()
-        );
-        targetRPM = 0.0;
+        this.targetRPM = 0.0;
+
     }
 
     public void setTargetRPM(double targetRPM) {
@@ -33,35 +56,16 @@ public class Shooter extends SubsystemBase{
         return this.targetRPM;
     }
 
-    public void setFlyWheelRPM(double targetRPM) {
-        if (targetRPM < Settings.Shooter.MIN_RPM) {
-            flywheel.stop();
-        } 
-        else if (targetRPM > Settings.Shooter.MAX_RPM) {
-            flywheel.setVelocity(Settings.Shooter.MAX_RPM);
-        }
-        else {
-            flywheel.setVelocity(targetRPM);
-        }
-    }
-
-    public double getFlyWheelRPM() {
-        return flywheel.getVelocity();
-    }
-
-    public boolean isReady() {
-        return Math.abs(getFlyWheelRPM() - getTargetRPM()) < Settings.Shooter.MAX_RPM_ERROR;
-    }
-
+    public abstract double getVelocity();
+    
     @Override
     public void periodic() {
-        double setpoint = getTargetRPM();
-        if (setpoint < Settings.Shooter.MIN_RPM) {
-            flywheel.stop();
-        } 
-        else {
-            flywheel.setVelocity(setpoint);
-        }
-        flywheel.periodic();
+        SmartDashboard.putNumber(getName(), targetRPM);
+        periodicallyCalled();
+    }
+
+    public abstract void periodicallyCalled();
+
+    public void setShooterRPM(double d) {
     }
 }

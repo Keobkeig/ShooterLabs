@@ -6,15 +6,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ShooterStop extends InstantCommand {
 
-    private final Shooter shooter;
+    private Shooter shooter;
 
     public ShooterStop(Shooter shooter) {
-        this.shooter = shooter;
+        shooter = Shooter.getInstance();
         addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
-        shooter.setFlyWheelRPM(0.0);
+        shooter.setShooterRPM(0.0);
     }
 }
