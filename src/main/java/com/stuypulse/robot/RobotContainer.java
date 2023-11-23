@@ -25,7 +25,7 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
-    public final Shooter shooter = Shooter.getInstance();
+    //TODO: Make a field for the shooter, and set it equal to the instance of the shooter (hint: use the getInstance method)
 
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -43,6 +43,7 @@ public class RobotContainer {
     /****************/
 
     private void configureDefaultCommands() {
+        //XXX: This is how you make a default command for a subsystem
         shooter.setDefaultCommand(new ShooterStop(shooter));
     }
 
@@ -52,12 +53,22 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         // Driver
-        driver.getTopButton()
-            .onTrue(new ShooterSetRPM(1000));
+        /*TODO: Make a button for the driver's top button and left button
+            * 
+            * The top button should set the shooter's target RPM to 1000
+            * The left button should run a ShooterRingShot command
+            * 
+            * Hint: Use the ShooterSetRPM and ShooterRingShot commands
+            * 
+            * Hint: Use the onTrue method for the top button and the onFalse method for the left button
+            * 
+            * Hint: Use the shooter field you made earlier as the parameter for the ShooterSetRPM and ShooterRingShot commands
+            * 
+            * Use the button binding code of ShooterStop below as a guide for writing the 2 button bindings
+            */
         driver.getBottomButton()
             .onFalse(new ShooterStop(shooter));
-        driver.getLeftButton()
-            .onTrue(new ShooterRingShot(shooter));
+
     }
 
     /**************/

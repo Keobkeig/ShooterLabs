@@ -6,17 +6,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ShooterSetRPM extends InstantCommand {
 
-    private Shooter shooter;
-    private double targetRPM;
+    //TODO: Make a field for the shooter and a field for the target RPM
 
     public ShooterSetRPM(double targetRPM) {
-        shooter = Shooter.getInstance();
-        this.targetRPM = targetRPM;
-        addRequirements(shooter);
+        //TODO: Write the constructor for this command (dont forget to add requirements)
     }
 
     @Override
     public void initialize() {
-        shooter.setTargetRPM(targetRPM);
+        //TODO: Use the shooter's setTargetRPM method to set the target RPM (very similar to ShooterStop.java)
     }
 }

@@ -35,41 +35,45 @@ public abstract class Shooter extends SubsystemBase{
     }
     // Don't worry about anything above 
 
-    //TODO: Add a PID Controller to the shooter
-    private double targetRPM;
-    private final SimpleMotorFeedforward feedforward;
-    private final Controller feedback;
-
-
+    /*TODO: Make 3 private fields: 
+        targetRPM of tye double,
+        feedforward of type SimpleMotorFeedforward,
+        feedback of type Controller
+        for the last 2, look in the imports to see what they are
+    */
+    
     public Shooter() {
-        this.targetRPM = 0.0;
-
-        this.feedforward = Settings.Shooter.ShooterFF.getController();
-        this.feedback = Settings.Shooter.ShooterPID.getController();
+        /*TODO: Write your constructor, intialize the fields you made
+        * Look inside the constants/Settings.java file 
+        * to see what you need to initialize the feedforward and feedback
+        */
     }
 
     public void setTargetRPM(double targetRPM) {
-        if (targetRPM < Settings.Shooter.MIN_RPM) {
-            this.targetRPM = 0.0;
-        } 
-        else if (targetRPM > Settings.Shooter.MAX_RPM) {
-            this.targetRPM = Settings.Shooter.MAX_RPM;
-        }
-        else {
-            this.targetRPM = targetRPM;
-        }
+        /*TODO:
+         * Write a setter for the targetRPM
+         * Make sure that the targetRPM is within the bounds of the shooter
+         * (MIN_RPM and MAX_RPM) <- make them in the constants/Settings.java file
+         * If the targetRPM is within the bounds, set the targetRPM to the targetRPM
+         * If the targetRPM is not within the bounds, set the targetRPM to the upper/lower bound
+         */
+      
     }
 
     public double getTargetRPM() {
-        return this.targetRPM;
+        //TODO: Write a getter for the targetRPM
     }
 
-    public abstract double getVelocity();
-    public abstract void setVoltage(double voltage);
-    public abstract double getVoltage();
+    /*TODO: Write the following abstract methods (remember nothing in the body, just the signature)
+     * getVelocity() of type double
+     * setVoltage(double voltage) of type void
+     * getVoltage() of type double
+    */
     
+    // This is a method that will be called every 20ms
     @Override
     public void periodic() {
+        //This part I will write out for you guys! :)
         if (getTargetRPM() < Settings.Shooter.MIN_RPM) {
             this.setVoltage(0.0);
         } 
@@ -80,8 +84,11 @@ public abstract class Shooter extends SubsystemBase{
             this.setVoltage(ff + fb);
         }
         SmartDashboard.putNumber("Shooter/Target RPM", getTargetRPM());
+
+        // Once implemented, the stuff in periodicallyCalled() will be also called every 20ms
         periodicallyCalled();
     }
 
+    // This is a method that will be called every 20ms, to be implemented in ShooterImpl.java
     public abstract void periodicallyCalled();
 }

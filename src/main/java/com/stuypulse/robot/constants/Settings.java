@@ -16,31 +16,45 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
  */
 public interface Settings {
     public interface Shooter {    
-        //Notice how the constants are grouped together in a single class, all CAPS and static
+        //Notice how the constants are grouped together in a single class
+        //Constant variable names should all CAPS and static
         //think about how you would use these constants in your methods
-        static double MAX_RPM = 5700.0;
-        static double MIN_RPM = 100.0;
-        static double MAX_RPM_CHANGE = 2000.0;
-        static double MAX_RPM_ERROR = 100.0;
-        static double RING_RPM = 4000.0;
+
+        /*TODO: Make the following constants: 
+         * MAX_RPM of type double and set it to 5700.0
+         * MIN_RPM of type double and set it to 100.0
+         * MAX_RPM_CHANGE of type double and set it to 2000.0
+         * MAX_RPM_ERROR of type double and set it to 100.0
+         * RING_RPM of type double and set it to 4000.0
+         * 
+         * e.g.
+         * public static final double MAX_RPM = 5700.0;
+        */
+     
         public interface ShooterPID {
             double kP = 0.005;
             double kI = 0.0;
             double kD = 0.00033;
-    
+            
+            // This is a static method, you can call it like this: Settings.Shooter.ShooterPID.getController()
+            // This is useful because you can use it to initialize your PIDController in your constructor
+            // Use this one for feedback
             static PIDController getController() {
                 return new PIDController(ShooterPID.kP, ShooterPID.kI, ShooterPID.kD);
             }
         }
     
         public interface ShooterFF {
-            double kS = 0.17118;
-            double kV = 0.0020763;
-            double kA = 0.00011861;
-    
-            static SimpleMotorFeedforward getController() {
-                return new SimpleMotorFeedforward(ShooterFF.kS, ShooterFF.kV, ShooterFF.kA);
-            }
+            //TODO: Make the following constants:
+            //kS of type double and set it to 0.17118
+            //kV of type double and set it to 0.0020763
+            //kA of type double and set it to 0.00011861
+            //e.g.
+            //public static final double kS = 0.17118;
+            
+            //TODO: Make a static method called getController() that returns a SimpleMotorFeedforward
+            //Use the constants you made above to initialize the SimpleMotorFeedforward (look at the constructor for ShooterPID's getController method on line 42)
+            
         }
     }
 }
