@@ -1,30 +1,40 @@
 package com.stuypulse.robot.subsystems;
 
+import javax.print.attribute.standard.MediaSize.NA;
+
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.util.VelocitySystem;
+
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
+
 public class SimShooter extends Shooter {
-    private double velocity;
+    private LinearSystemSim<N1,N1,N1> flywheelSim;
 
     public SimShooter() {
         super();
-        this.velocity = 0.0;
+        this.flywheelSim = VelocitySystem.getLinearSystemSim(Settings.Shooter.ShooterFF.kV, Settings.Shooter.ShooterFF.kA);
     }
 
     @Override
     public double getVelocity() {
-        return velocity;
+        return flywheelSim.getOutput(0);
     }
 
     @Override
     public void periodicallyCalled() {
-        velocity = getTargetRPM();
+        flywheelSim.setState(MatBuilder.fill(Nat.N1(),Nat.N1(), getTargetRPM())); 
     }
 
     @Override
     public void setVoltage(double voltage) {
-        return;
+        flywheelSim.setInput(voltage); 
     }
 
     @Override
     public double getVoltage() {
-        return 0.0;
+        return flywheelSim.getCurrentDrawAmps(); 
     }
 }
