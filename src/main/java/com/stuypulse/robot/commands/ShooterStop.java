@@ -8,7 +8,7 @@ public class ShooterStop extends InstantCommand {
 
     private Shooter shooter;
 
-    public ShooterStop(Shooter shooter) {
+    public ShooterStop() {
         shooter = Shooter.getInstance();
         addRequirements(shooter);
     }

@@ -18,7 +18,7 @@ public interface Settings {
     public interface Shooter {    
         //Notice how the constants are grouped together in a single class, all CAPS and static
         //think about how you would use these constants in your methods
-        static double MAX_RPM = 5700.0;
+        static final double MAX_RPM = 5700.0;
         static double MIN_RPM = 100.0;
         static double MAX_RPM_CHANGE = 2000.0;
         static double MAX_RPM_ERROR = 100.0;

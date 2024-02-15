@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Shooter class contains the hardware logic for the Shooter class.
+ * Shooter class contains the software logic for the Shooter class.
  *
  * <p>Contains a simple feedforward model of the shooter based on the voltage-balance equation and a
  * PID controller to correct for any error.

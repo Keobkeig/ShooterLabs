@@ -43,7 +43,7 @@ public class RobotContainer {
     /****************/
 
     private void configureDefaultCommands() {
-        shooter.setDefaultCommand(new ShooterStop(shooter));
+        shooter.setDefaultCommand(new ShooterStop());
     }
 
     /***************/
@@ -52,11 +52,11 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         // Driver
-        driver.getTopButton()
+        operator.getTopButton()
             .onTrue(new ShooterSetRPM(1000));
-        driver.getBottomButton()
-            .onFalse(new ShooterStop(shooter));
-        driver.getLeftButton()
+        operator.getBottomButton()
+            .onFalse(new ShooterStop());
+        operator.getLeftButton()
             .onTrue(new ShooterRingShot(shooter));
     }
 
